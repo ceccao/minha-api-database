@@ -1,0 +1,10 @@
+# ADORMECIDO ate a FASE 21 (deploy Azure) ser ativada.
+# Em producao de verdade, prefira NUNCA rodar este arquivo manualmente com senha real --
+# a pipeline de CD (cd.yml) aplica o Liquibase usando os GitHub Environment Secrets
+# (LIQUIBASE_URL/USER/PASSWORD), nao este arquivo. Mantenha este .example so como referencia
+# de formato, sem segredo nenhum.
+changeLogFile=changelogs/minha-api.changelog-master.xml
+url=jdbc:mysql://HOST_PROD_AQUI:3306/minha_api_prod?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=true
+username=COLOQUE_O_USUARIO_AQUI
+password=COLOQUE_A_SENHA_AQUI
+driver=com.mysql.cj.jdbc.Driver

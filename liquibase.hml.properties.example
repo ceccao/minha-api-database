@@ -1,0 +1,9 @@
+# ADORMECIDO ate a FASE 21 (deploy Azure) ser ativada.
+# Quando o Azure Database for MySQL Flexible Server de HML existir de verdade,
+# troque HOST_HML_AQUI pelo endereco real do servidor (ex: minhaapi-mysql-hml.mysql.database.azure.com)
+# e preencha usuario/senha reais. Este .example nao tem segredo nenhum, pode ficar versionado.
+changeLogFile=changelogs/minha-api.changelog-master.xml
+url=jdbc:mysql://HOST_HML_AQUI:3306/minha_api_hml?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=true
+username=COLOQUE_O_USUARIO_AQUI
+password=COLOQUE_A_SENHA_AQUI
+driver=com.mysql.cj.jdbc.Driver
