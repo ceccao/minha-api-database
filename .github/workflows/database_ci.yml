@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, hml, dev ]
+  pull_request:
+    branches: [ main, hml, dev ]
+
+jobs:
+  validar-changelogs:
+    name: Validar changelogs do Liquibase
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Liquibase
+        run: |
+          curl -s https://raw.githubusercontent.com/liquibase/liquibase-install/master/install.sh | bash
+
+      - name: Validar sintaxe dos changelogs
+        run: liquibase --changelog-file=changelogs/minha-api.changelog-master.xml validate
