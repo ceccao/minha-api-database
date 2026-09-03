@@ -10,6 +10,23 @@ jobs:
   validar-changelogs:
     name: Validar changelogs do Liquibase
     runs-on: ubuntu-latest
+
+    # SQL puro (dialeto MySQL) nao pode mais ser validado contra o H2 em memoria -
+    # sobe um MySQL efemero so pra duracao deste job, sem custo e sem persistencia.
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root123
+          MYSQL_DATABASE: minha_api_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot123"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - uses: actions/checkout@v5
 
@@ -19,11 +36,19 @@ jobs:
           version: '5.0.4'
           edition: 'community'
 
-      # "validate" so confere a sintaxe/estrutura do changelog - usamos o H2 em
-      # memoria (ja vem embutido no proprio Liquibase, sem precisar de LPM ou de
-      # um MySQL real rodando no runner) so pra satisfazer a exigencia de --url.
-      - name: Validar sintaxe dos changelogs
+      # Liquibase Community 5.0+ nao vem mais com nenhum driver de banco embutido
+      # (nem na edicao Secure, por causa da licenca do driver oficial do MySQL) -
+      # precisa instalar via LPM.
+      - name: Instalar driver do MySQL via LPM
+        run: liquibase lpm add mysql --global
+
+      # "update" de verdade (nao so validate) contra o MySQL efemero - com SQL puro,
+      # isso confirma que o script realmente roda no dialeto certo, nao so que o
+      # XML do changelog esta bem formado.
+      - name: Aplicar changelogs no MySQL efêmero
         run: |
-          liquibase validate \
+          liquibase update \
             --changelog-file=changelogs/minha-api.changelog-master.xml \
-            --url=jdbc:h2:mem:validacao
+            --url="jdbc:mysql://localhost:3306/minha_api_ci?allowPublicKeyRetrieval=true&useSSL=false" \
+            --username=root \
+            --password=root123

@@ -5,6 +5,11 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="v0.1.0/001-create-table-produto.xml" relativeToChangelogFile="true"/>
+    <changeSet id="API-0001-script-01" author="ceccon">
+        <sqlFile path="../scripts/0.1.0/API-0001/script-01.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="../scripts/0.1.0/API-0001/script-01-rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
 
 </databaseChangeLog>
