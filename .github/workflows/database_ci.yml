@@ -53,12 +53,12 @@ jobs:
             --username=root \
             --password=root123
 
-      # Testa o rollback de verdade: desfaz o ultimo changeset e aplica de novo.
+      # Testa o rollback de verdade: desfaz os dois ultimos changesets e aplica de novo.
       # Falha se o script de rollback tiver erro (ex: nome de tabela com caixa errada,
       # que so quebra em Linux).
       - name: Testar rollback e reaplicar
         run: |
-          liquibase rollback-count 1 \
+          liquibase rollback-count 2 \
             --changelog-file=changelogs/minha-api.changelog-master.xml \
             --url="jdbc:mysql://localhost:3306/minha_api_ci?allowPublicKeyRetrieval=true&useSSL=false" \
             --username=root \
