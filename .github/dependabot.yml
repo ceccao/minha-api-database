@@ -1,5 +1,12 @@
 version: 2
 updates:
+  # Verificacao MENSAL. O CI (aplica os changelogs, desfaz e reaplica no MySQL efemero) roda
+  # em cada PR e a protecao da main exige CI verde.
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule: { interval: "weekly" }
+    schedule: { interval: "monthly" }
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
