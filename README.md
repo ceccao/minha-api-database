@@ -39,7 +39,7 @@ liquibase --defaultsFile=liquibase.dev.properties history
 ## Regras
 
 - **Nunca edite um script já aplicado.** O Liquibase guarda o checksum e passa a falhar com "Checksum changed". Crie um script novo.
-- **Respeite a caixa dos nomes de tabela e coluna** (hoje em maiúsculas, como `PRODUTO`). No MySQL em Linux, `produto` e `PRODUTO` são tabelas diferentes, e o CI roda em Linux.
+- **Respeite a caixa dos nomes de tabela e coluna** (hoje em maiúsculas, como `USUARIO`). No MySQL em Linux, `usuario` e `USUARIO` são tabelas diferentes, e o CI roda em Linux.
 - Todo script tem rollback. O CI aplica, desfaz e reaplica para provar que o rollback funciona.
 
 ## Ambientes
